@@ -1,0 +1,89 @@
+# /etc/caddy/Caddyfile on the new server.
+# Caddy fetches and renews a certificate for every site below by itself.
+# Check:  caddy validate --config /etc/caddy/Caddyfile
+# Apply:  sudo systemctl reload caddy
+
+# Personal site (repo: personal-site/, uploaded by deploy/deploy-site.sh).
+daan.wettinck.be {
+	root * /var/www/daan.wettinck.be
+	encode zstd gzip
+
+	# Vite puts a hash in every file name under /assets/, so these never change.
+	# Everything else (index.html, service-worker.js) must be checked on every
+	# visit, or visitors keep seeing the old site after a deploy.
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+	@other not path /assets/*
+	header @other Cache-Control "no-cache"
+
+	# The router uses real paths (/projects, /social): send them to index.html.
+	try_files {path} /index.html
+	file_server
+}
+
+www.daan.wettinck.be {
+	redir https://daan.wettinck.be{uri} permanent
+}
+
+# Short links, the rest goes to the personal site. The catch-all is a
+# temporary redirect, so wettinck.be can get its own content later.
+wettinck.be, www.wettinck.be {
+	redir /kotk "https://app.assistonline.eu/mvc/activity?key=eb38cc0d-2e4c-4e10-99fc-7446ab860cb4" permanent
+	redir /pingo "https://discord.com/api/oauth2/authorize?client_id=589027434611867668&permissions=482471024&scope=bot" permanent
+	redir https://daan.wettinck.be{uri}
+}
+
+kotk.wettinck.be {
+	redir "https://app.assistonline.eu/mvc/activity?key=eb38cc0d-2e4c-4e10-99fc-7446ab860cb4" permanent
+}
+
+# Pingo: Uno card images for the embeds (https://pingo.wettinck.be/uno/<card>.png).
+# Replaces the old images.js on port 4000.
+pingo.wettinck.be {
+	handle_path /uno/* {
+		root * /opt/pingo/Uno
+		file_server
+	}
+	handle {
+		redir https://daan.wettinck.be/projects#pingo
+	}
+}
+
+# Pingo: pictures, linked as https://zwervers.wettinck.be/<folder>/<n>&<random>=<random>.
+# The random part only stops Discord from showing a cached image; the file is
+# Pictures/<folder>/<n>.jpg. Replaces the old images.js on port 4000.
+zwervers.wettinck.be {
+	@pic path_regexp pic ^/([^/]+)/(\d+)&
+	handle @pic {
+		root * /opt/pingo/Pictures
+		rewrite * /{re.pic.1}/{re.pic.2}.jpg
+		file_server
+	}
+	handle {
+		respond 404
+	}
+}
+
+# Blok-spot reservations for JH Sock: static front end, API in SockBot.
+blok.jhsock.be {
+	encode zstd gzip
+
+	# SockBot sees /reserve, not /api/reserve; with
+	# server.forward-headers-strategy=FRAMEWORK it builds its links from
+	# X-Forwarded-Prefix. Caddy already sends X-Forwarded-For/-Proto/-Host.
+	handle_path /api/* {
+		reverse_proxy 127.0.0.1:8080 {
+			header_up X-Forwarded-Prefix /api
+			header_up X-Real-IP {remote_host}
+		}
+	}
+
+	handle {
+		root * /var/www/blok.jhsock.be
+		file_server
+	}
+}
+
+www.blok.jhsock.be {
+	redir https://blok.jhsock.be{uri} permanent
+}

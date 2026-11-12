@@ -1,0 +1,29 @@
+# /etc/systemd/system/sockbot.service on the new server.
+# SockBot: the JH Sock Discord bot and the API behind blok.jhsock.be/api/.
+[Unit]
+Description=SockBot Discord bot and Blok-spot API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sockbot
+Group=sockbot
+# application.properties, users.json and reservations.json are read from here;
+# the bot writes users.json and reservations.json back.
+WorkingDirectory=/opt/sockbot
+# Same JVM flags as on the old server (small heap for a small VPS).
+ExecStart=/usr/bin/java -Xms64M -Xmx160M -XX:+UseSerialGC -XX:TieredStopAtLevel=1 -XX:MaxMetaspaceSize=80M -XX:CompressedClassSpaceSize=32M -XX:ReservedCodeCacheSize=24m -Djava.util.concurrent.ForkJoinPool.common.parallelism=1 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStorePassword=changeit -Dspring.config.location=./application.properties -jar SockApplication.jar
+Restart=on-failure
+RestartSec=30
+SuccessExitStatus=143
+
+# Hardening: the bot only writes inside /opt/sockbot.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/sockbot
+
+[Install]
+WantedBy=multi-user.target
