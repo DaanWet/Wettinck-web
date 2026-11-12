@@ -1,24 +1,28 @@
 # personal-site
 
+Vue 3 + Vite. Needs Node 20.19+ or 22.12+.
+
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Dev server with hot reload
 ```
-npm run serve
+npm run dev
 ```
 
-### Compiles and minifies for production
+### Production build (to `dist/`)
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### Preview the production build
+```
+npm run preview
+```
+
+### Lint
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

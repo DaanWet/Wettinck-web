@@ -1,20 +1,19 @@
 <template>
-  <div id="app">
-    <page-header/>
-    <main>
-      <router-view/>
-    </main>
-    <footer class="site-footer">
-      <span>Daan Wettinck</span>
-      <a href="https://github.com/DaanWet">GitHub</a>
-      <a href="https://discord.gg/4Atn8t2">Discord</a>
-    </footer>
-  </div>
+  <!-- Mounted inside <div id="app"> from index.html, which the #app styles below target. -->
+  <page-header/>
+  <main>
+    <router-view/>
+  </main>
+  <footer class="site-footer">
+    <span>Daan Wettinck</span>
+    <a href="https://github.com/DaanWet">GitHub</a>
+    <a href="https://discord.gg/4Atn8t2">Discord</a>
+  </footer>
 </template>
 
 <script>
 
-import PageHeader from './components/PageHeader'
+import PageHeader from './components/PageHeader.vue'
 
 export default {
   components: {

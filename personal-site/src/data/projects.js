@@ -1,6 +1,8 @@
 // One place for all project info, used by both Home and Projects.
 // `featured` projects also show up on the home page.
 
+import sumarvilleImage from '../assets/Sumarville.png'
+
 export const projects = [
   {
     slug: 'sumarville',
@@ -8,7 +10,7 @@ export const projects = [
     years: '2019 – now',
     stack: ['Java', 'JDA'],
     featured: true,
-    image: require('../assets/Sumarville.png'),
+    image: sumarvilleImage,
     summary: 'A Discord bot for D&D groups.',
     story: 'Sumarville keeps a campaign calendar with reminders, runs the "what are we eating" poll before a session, rolls dice and helps with character creation. It is listed on top.gg, and it is the project I keep coming back to.',
     links: [
