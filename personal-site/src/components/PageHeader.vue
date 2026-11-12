@@ -1,90 +1,52 @@
 <template>
-  <header>
-      <div :class="['navigator', currentRouteName]">
-      <nav>
-          <router-link to="/">Home</router-link>
-          <router-link to="/projects">Projects</router-link>
-          <router-link to="/social">Social</router-link>
-      </nav>
-      <h1>{{ currentRouteName }}</h1>
-      </div>
-      
+  <header class="page-header">
+    <router-link to="/" class="name">Daan Wettinck</router-link>
+    <nav>
+      <router-link to="/projects">Projects</router-link>
+      <router-link to="/social">Social</router-link>
+    </nav>
   </header>
 </template>
 
 <script>
-export default {
-  computed: {
-    currentRouteName() {
-      return this.$route.name;
-    }
-  }
-}
+export default {}
 </script>
 
 <style>
-
-header .navigator{
-        background-color: #dab551;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 100%;
-        height: 450px;
-        width: 100%;
-        
+.page-header {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 20px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.Home {
-  background-image: url('../assets/northern-lights.jpg');
+.page-header .name {
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  border-bottom: 3px solid var(--gold);
 }
 
-.Projects {
-  background-image: url('../assets/code.jpg');
+.page-header nav {
+  display: flex;
+  gap: 24px;
+  font-family: var(--mono);
+  font-size: 15px;
 }
 
-.Social {
-  background-image: url('../assets/smartphone2.jpg');
-  background-position-y: 50px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+.page-header nav a {
+  text-decoration: none;
+  color: var(--muted);
 }
 
-header nav {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content:space-evenly;
-    align-items: flex-start;
+.page-header nav a:hover,
+.page-header nav a.router-link-active {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
 }
-
-header nav a {
-    margin-top: 30px;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 18px;
-    
-}
-
-header nav a.router-link-exact-active {
-  
-}
-
-header {
-  position: relative;
-  width: 100%;
-  height: 100%
-}
-
-header h1 {
-  text-align: left;
-  position: absolute;
-  bottom: 0;
-  left: 50px;
-  font-size: 100px;
-  color: whitesmoke
-}
-
-
 </style>

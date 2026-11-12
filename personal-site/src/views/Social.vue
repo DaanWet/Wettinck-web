@@ -1,4 +1,6 @@
 <template>
+  <div>
+  <h1 class="socials-title">Social</h1>
   <div class="socials">
   <a href="https://github.com/DaanWet">
     <figure>
@@ -26,12 +28,13 @@
   </a>
   <a href="https://www.facebook.com/Dazed00">
     <figure>
-      <img src="../assets/facebook-logo.png" alt="Discord logo"/>
+      <img src="../assets/facebook-logo.png" alt="Facebook logo"/>
       <figcaption>
         My Facebook Page
       </figcaption>
     </figure>
   </a>
+  </div>
   </div>
 </template>
 
@@ -47,7 +50,12 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 50px 150px;
+  margin: 32px 0;
+}
+.socials-title {
+  font-size: clamp(36px, 7vw, 52px);
+  margin: 40px 0 12px;
+  letter-spacing: -0.02em;
 }
 .socials a {
   text-align: center;
