@@ -21,7 +21,7 @@ export const projects = [
   {
     slug: 'pingo',
     name: 'Pingo',
-    years: '2020 – 2024',
+    years: '2020 – now',
     stack: ['Java', 'JDA'],
     featured: true,
     summary: 'A Discord bot for games and a bit of moderation.',
